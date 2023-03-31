@@ -1,15 +1,11 @@
-# Project: Extend an existing official image from Docker Hub to run a webserver
+FROM ubuntu
+MAINTAINER Kimbro Staken
 
-# Step 1: Use the 'nginx' official image, with the latest version for alpine
-#   Pinning a version makes development so much easier because it is predictable
-FROM nginx:stable-alpine
+RUN apt-get install -y python-software-properties python
+RUN add-apt-repository ppa:chris-lea/node.js
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y nodejs git
+RUN npm install -g docpad@6.44
 
-# Step 2: Change our working directory to the root of nginx webhost
-WORKDIR /usr/share/nginx/html
-
-# Step 3: Copy in the file or files or folder!
-COPY index.html /usr/share/nginx/html/
-
-# BONUS: add in a healthcheck!
-
-# No need to specify EXPOSE or CMD because they're include in the base (FROM)
+CMD ["/bin/bash"] 
